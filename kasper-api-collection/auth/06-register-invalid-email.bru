@@ -1,0 +1,24 @@
+meta {
+  name: 06 Register - invalid email (400)
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Bad Email",
+    "email": "not-an-email",
+    "password": "Passw0rd!123"
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.status: eq fail
+}

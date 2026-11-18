@@ -1,0 +1,27 @@
+meta {
+  name: 03 Me (protected)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("returns the logged-in user, no password", function () {
+    expect(res.body.data.user.email).to.equal(bru.getVar("email"));
+    expect(res.body.data.user).to.not.have.property("password");
+    expect(res.body.data.user.lastLoginAt).to.be.a("string");
+  });
+}

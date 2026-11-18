@@ -1,0 +1,19 @@
+meta {
+  name: 11 Me - invalid token (401)
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/api/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: not.a.realtoken
+}
+
+assert {
+  res.status: eq 401
+}
