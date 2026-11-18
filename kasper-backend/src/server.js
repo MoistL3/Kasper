@@ -1,10 +1,10 @@
-require('dotenv').config();
-const { connectDB } = require('./config/db');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });const { connectDB } = require('./config/db');
 const express = require('express');
 const app = express() ;
 
 
-const auth_router = require('../src/routes/auth.js')
+const auth_router = require('../src/routes/auth-routes.js')
 
 
 app.use(express.json());
