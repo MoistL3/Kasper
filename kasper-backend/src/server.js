@@ -1,19 +1,13 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });const { connectDB } = require('./config/db');
-const express = require('express');
-const app = express() ;
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
+const app = require('./app');
+const { connectDB } = require('./config/db');
 
-const auth_router = require('../src/routes/auth-routes.js')
+const PORT = process.env.PORT || 3000;
 
-
-app.use(express.json());
-app.use('/api/auth' , auth_router)
-
-
-// تشغيل السيرفر
-connectDB().then(()=>{
-    app.listen(3000 , ()=>{
-        console.log("server is running")
-    })
-})
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+});
