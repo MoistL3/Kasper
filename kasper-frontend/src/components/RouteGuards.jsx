@@ -31,7 +31,7 @@ export function PublicRoute({ children }) {
     }
 
     if (user) {
-        return <Navigate to="/dashboard" replace />;
+        return <Navigate to="/profile" replace />;
     }
 
     return children;

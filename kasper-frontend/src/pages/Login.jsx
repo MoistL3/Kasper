@@ -24,7 +24,7 @@ export default function Login() {
         setSubmitting(true);
         try {
             await login(email.trim(), password);
-            navigate('/dashboard', { replace: true });
+            navigate('/profile', { replace: true });
         } catch (err) {
             setError(
                 err.response?.data?.message || 'Unable to connect to the server. Please try again.'
