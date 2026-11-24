@@ -11,5 +11,17 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  localstack:
+    image: localstack/localstack:4.14 # آخر نسخة من غير auth. لو عاوز latest: فك التعليق اللي تحت
+    container_name: kasper-localstack
+    restart: unless-stopped
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      # LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN}
+    volumes:
+      - ./localstack/init:/etc/localstack/init/ready.d
+
 volumes:
   mongo_data:
