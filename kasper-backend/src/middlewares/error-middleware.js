@@ -1,5 +1,6 @@
 const { AppError } = require('../utils/errors.js');
 
+
 // eslint-disable-next-line no-unused-vars
 const error_handler = (err, req, res, next) => {
     let statusCode = 500;

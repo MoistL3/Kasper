@@ -16,7 +16,7 @@ services:
     container_name: kasper-localstack
     restart: unless-stopped
     ports:
-      - "4566:4566"
+      - "4567:4566"
     environment:
       SERVICES: s3
       # LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN}
