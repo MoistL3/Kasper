@@ -5,10 +5,12 @@ const { AppError } = require('../utils/errors.js');
 const error_handler = (err, req, res, next) => {
     let statusCode = 500;
     let message = 'Internal server error';
+    let code;
 
     if (err instanceof AppError) {
         statusCode = err.statusCode;
         message = err.message;
+        code = err.code;
     } else if (err.name === 'ValidationError') {
         // Mongoose schema validation
         statusCode = 400;
@@ -36,6 +38,7 @@ const error_handler = (err, req, res, next) => {
     res.status(statusCode).json({
         status: statusCode < 500 ? 'fail' : 'error',
         message,
+        ...(code && { code }),
     });
 };
 

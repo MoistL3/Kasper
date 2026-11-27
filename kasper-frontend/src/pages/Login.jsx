@@ -26,6 +26,11 @@ export default function Login() {
             await login(email.trim(), password);
             navigate('/profile', { replace: true });
         } catch (err) {
+            // الباسورد صح بس الإيميل لسه مش متأكد: نوديه لصفحة إدخال الكود
+            if (err.response?.data?.code === 'EMAIL_NOT_VERIFIED') {
+                navigate('/verify-email', { state: { email: email.trim() } });
+                return;
+            }
             setError(
                 err.response?.data?.message || 'Unable to connect to the server. Please try again.'
             );

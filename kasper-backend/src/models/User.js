@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { COLLEGES } = require('../config/academic-data.js');
 
 const userSchema = new mongoose.Schema(
     {
@@ -25,9 +26,29 @@ const userSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ['member', 'lead', 'admin'],
-            default: 'member',
+            enum: ['student', 'lead', 'admin'],
+            default: 'student',
         },
+        college: {
+            type: String,
+            required: [true, 'College is required'],
+            enum: { values: COLLEGES, message: 'Invalid college' },
+        },
+        department: {
+            type: String,
+            required: [true, 'Department is required'],
+            // مفيش enum هنا: القسم بيعتمد على الكلية، فالتحقق من الزوج بيتم في auth-service
+        },
+        isEmailVerified: {
+            type: Boolean,
+            default: false,
+        },
+        // حقول التحقق كلها select:false: مبترجعش في أي query إلا لو طلبتها بـ .select('+field')
+        // تحذير: لو نسيت تطلب verificationSentAt في query، قيمتها undefined والـ cooldown بيتخطّى بصمت
+        verificationCodeHash: { type: String, select: false, default: null },
+        verificationExpiresAt: { type: Date, select: false, default: null },
+        verificationAttempts: { type: Number, select: false, default: 0 },
+        verificationSentAt: { type: Date, select: false, default: null },
         isActive: {
             type: Boolean,
             default: true,
@@ -42,6 +63,10 @@ const userSchema = new mongoose.Schema(
         toJSON: {
             transform: (_doc, ret) => {
                 delete ret.password;
+                delete ret.verificationCodeHash;
+                delete ret.verificationExpiresAt;
+                delete ret.verificationAttempts;
+                delete ret.verificationSentAt;
                 delete ret.__v;
                 return ret;
             },

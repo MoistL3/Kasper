@@ -38,12 +38,22 @@ export function AuthProvider({ children }) {
         return loggedUser;
     };
 
-    const register = async (name, email, password) => {
-        const res = await api.post('/auth/register', { name, email, password });
-        const { user: createdUser, token } = res.data.data;
+    // مبترجعش token ومبتسجّلش دخول: بترجّع الإيميل بس، واليوزر بيكمل في صفحة التحقق
+    const register = async ({ name, email, password, college, department }) => {
+        const res = await api.post('/auth/register', { name, email, password, college, department });
+        return res.data.data.email;
+    };
+
+    const verifyEmail = async (email, code) => {
+        const res = await api.post('/auth/verify-email', { email, code });
+        const { user: verifiedUser, token } = res.data.data;
         localStorage.setItem('kasper_token', token);
-        setUser(createdUser);
-        return createdUser;
+        setUser(verifiedUser);
+        return verifiedUser;
+    };
+
+    const resendCode = async (email) => {
+        await api.post('/auth/resend-code', { email });
     };
 
     const logout = () => {
@@ -52,7 +62,9 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+        <AuthContext.Provider
+            value={{ user, loading, login, register, verifyEmail, resendCode, logout }}
+        >
             {children}
         </AuthContext.Provider>
     );

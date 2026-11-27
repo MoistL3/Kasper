@@ -79,7 +79,15 @@ export function Logo({ compact = false }) {
                 <span />
             </div>
             {!compact && (
-                <span className="text-[19px] font-semibold tracking-[-0.03em] text-white">Kasper</span>
+                <>
+                    <span className="text-[19px] font-semibold tracking-[-0.03em] text-white">Kasper</span>
+                    {/* الـ wrapper بيتقص (overflow hidden) والـ border جوه الـ span الداخلي */}
+                    <span className="tagline hidden sm:inline-block">
+                        <span className="block whitespace-nowrap border-l border-white/10 pl-3 text-xs font-medium text-violet-300">
+                            your smart academic assistant
+                        </span>
+                    </span>
+                </>
             )}
         </div>
     );
@@ -115,6 +123,45 @@ export function Field({
                 autoComplete={autoComplete}
                 className="h-11 w-full rounded-lg border border-white/10 bg-[#111720] px-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-violet-500/70 focus:ring-4 focus:ring-violet-500/10 disabled:opacity-50"
             />
+        </div>
+    );
+}
+
+export function SelectField({
+                                label,
+                                value,
+                                onChange,
+                                options,
+                                placeholder,
+                                hint,
+                                disabled = false,
+                            }) {
+    const id = label.toLowerCase().replaceAll(' ', '-');
+
+    return (
+        <div>
+            <div className="mb-2 flex items-center justify-between">
+                <label htmlFor={id} className="text-[13px] font-medium text-slate-300">
+                    {label}
+                </label>
+                {hint && <span className="text-xs text-slate-500">{hint}</span>}
+            </div>
+            <select
+                id={id}
+                value={value}
+                disabled={disabled}
+                onChange={(event) => onChange(event.target.value)}
+                className="h-11 w-full cursor-pointer rounded-lg border border-white/10 bg-[#111720] px-3 text-sm text-white outline-none transition focus:border-violet-500/70 focus:ring-4 focus:ring-violet-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+                <option value="" disabled>
+                    {placeholder}
+                </option>
+                {options.map((option) => (
+                    <option key={option} value={option}>
+                        {option}
+                    </option>
+                ))}
+            </select>
         </div>
     );
 }

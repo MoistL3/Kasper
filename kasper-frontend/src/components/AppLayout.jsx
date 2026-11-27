@@ -30,7 +30,7 @@ export default function AppLayout({ children }) {
                                 <p className="truncate text-xs text-slate-500">{user?.email}</p>
                             </div>
                             <span className="rounded-full border border-violet-400/20 bg-violet-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-violet-300">
-                                {user?.role || 'member'}
+                                {user?.role || 'student'}
                             </span>
                         </div>
 

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/auth-routes');
 const profileRoutes = require('./routes/profile-routes');
+const academicRoutes = require('./routes/academic-routes');
 const errorHandler = require('./middlewares/error-middleware');
 const { NotFoundError } = require('./utils/errors');
 
@@ -17,6 +18,7 @@ app.get('/api/health', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/academic', academicRoutes);
 
 // Anything that didn't match a route above
 app.use((req, res, next) => {

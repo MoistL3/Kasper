@@ -25,6 +25,8 @@ const createUserWithRole = async (role, isActive = true) => {
         email: `${role}_${Date.now()}@kasper.dev`,
         password,
         role,
+        college: 'Computers & AI',
+        department: 'Computer Science',
         isActive,
     });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -46,7 +48,7 @@ describe('Unit: restrictTo middleware', () => {
 
     it('throws ForbiddenError when user role is not allowed', () => {
         expect(() =>
-            restrictTo('lead', 'admin')({ user: { role: 'member' } }, {}, jest.fn())
+            restrictTo('lead', 'admin')({ user: { role: 'student' } }, {}, jest.fn())
         ).toThrow(ForbiddenError);
     });
 });
@@ -58,7 +60,7 @@ describe('Unit: protect middleware', () => {
     });
 
     it('attaches active user to req.user and calls next()', async () => {
-        const { user, token } = await createUserWithRole('member', true);
+        const { user, token } = await createUserWithRole('student', true);
         const req = { headers: { authorization: `Bearer ${token}` } };
         const next = jest.fn();
 
@@ -77,8 +79,8 @@ describe('Integration: Protected RBAC Route (protect + restrictTo)', () => {
         expect(res.status).toBe(401);
     });
 
-    it('returns 403 when authenticated as member', async () => {
-        const { token } = await createUserWithRole('member');
+    it('returns 403 when authenticated as student', async () => {
+        const { token } = await createUserWithRole('student');
         const res = await request(testApp)
             .get('/lead-or-admin')
             .set('Authorization', `Bearer ${token}`);

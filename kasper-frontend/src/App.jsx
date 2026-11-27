@@ -4,6 +4,7 @@ import { ProfileProvider } from './context/ProfileContext';
 import { ProtectedRoute, PublicRoute } from './components/RouteGuards';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import VerifyEmail from './pages/VerifyEmail';
 import Profile from './pages/Profile';
 
 export default function App() {
@@ -25,6 +26,14 @@ export default function App() {
                             element={
                                 <PublicRoute>
                                     <Register />
+                                </PublicRoute>
+                            }
+                        />
+                        <Route
+                            path="/verify-email"
+                            element={
+                                <PublicRoute>
+                                    <VerifyEmail />
                                 </PublicRoute>
                             }
                         />

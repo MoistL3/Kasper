@@ -1,9 +1,10 @@
 
 class AppError extends Error {
-    constructor(message, statusCode) {
+    constructor(message, statusCode, code) {
         super(message);
         this.statusCode = statusCode;
         this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+        this.code = code; // كود نصي اختياري يقدر الفرونت يتفرع عليه (زي EMAIL_NOT_VERIFIED)
         this.isOperational = true;
         Error.captureStackTrace(this, this.constructor);
     }
@@ -18,7 +19,7 @@ class UnauthorizedError extends AppError {
 }
 
 class ForbiddenError extends AppError {
-    constructor(message = 'Forbidden') { super(message, 403); }
+    constructor(message = 'Forbidden', code) { super(message, 403, code); }
 }
 
 class NotFoundError extends AppError {
@@ -29,6 +30,10 @@ class ConflictError extends AppError {
     constructor(message = 'Conflict') { super(message, 409); }
 }
 
+class TooManyRequestsError extends AppError {
+    constructor(message = 'Too many requests') { super(message, 429); }
+}
+
 module.exports = {
     AppError,
     BadRequestError,
@@ -36,4 +41,5 @@ module.exports = {
     ForbiddenError,
     NotFoundError,
     ConflictError,
+    TooManyRequestsError,
 };

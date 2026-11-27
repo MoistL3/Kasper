@@ -23,5 +23,14 @@ services:
     volumes:
       - ./localstack/init:/etc/localstack/init/ready.d
 
+  # سيرفر SMTP وهمي للتطوير: بيستقبل الإيميلات ويعرضها في واجهة ويب
+  mailpit:
+    image: axllent/mailpit
+    container_name: kasper-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # SMTP (التطبيق بيبعت هنا)
+      - "8025:8025" # واجهة الويب: http://localhost:8025
+
 volumes:
   mongo_data:

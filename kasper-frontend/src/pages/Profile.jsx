@@ -219,7 +219,10 @@ export default function Profile() {
                     <div className="mt-3">
                         <InfoRow label="Name" value={user?.name} />
                         <InfoRow label="Email" value={user?.email} />
-                        <InfoRow label="Role" value={user?.role || 'member'} />
+                        {/* '—' لليوزرز القدام اللي اتسجلوا قبل ما الحقلين يتضافوا */}
+                        <InfoRow label="College" value={user?.college || '—'} />
+                        <InfoRow label="Department" value={user?.department || '—'} />
+                        <InfoRow label="Role" value={user?.role || 'student'} />
                     </div>
 
                     <form onSubmit={handleSaveBio} className="mt-6">
